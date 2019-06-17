@@ -1,0 +1,19 @@
+# Travis configuration guide for R language:
+
+
+language: r
+sudo: true
+cache: packages
+
+r_packages:
+  - covr
+
+before_install:
+  - Rscript -e 'update.packages(ask = FALSE)'
+
+after_success:
+  - Rscript -e 'covr::codecov()'
+
+warnings_are_errors: false
+use_bioc: false
+bioc_required: false
