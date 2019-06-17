@@ -1,0 +1,15 @@
+Package: Myproject
+Type: Package
+Title: Preparation for Credit Scoring Model
+Version: 0.0.0.9000
+Author: Sokolheavy
+Description: usefull function, that u can use for model preprocessing 
+Depends: R (>= 3.6.0)
+Encoding: UTF-8
+LazyData: true
+Imports: data.table, dplyr, ggplot2, doParallel, smbinning, classInt, gridExtra, ggpubr, cowplot, gtable, gridExtra, corrplot, grid
+Suggests: devtools, roxygen2, testthat
+RoxygenNote: 6.1.1
+
+
+
