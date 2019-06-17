@@ -1,6 +1,6 @@
 # preModel
 
-## Processing for Credit Scoring Model
+## Preprocessing for Credit Scoring Model
 
 
 ## Overview
