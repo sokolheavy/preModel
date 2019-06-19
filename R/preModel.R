@@ -19,7 +19,7 @@
 #' 
 #' @export
 #' 
-binning <- function(df, variable_fc, target_calc){
+binning <- function(work_data, variable_fc, target_calc){
   # binning every variable with different type of binning('equal', 'smbinning', '')
   bin_col <- match(names(work_data[ ,(variable_fc):ncol(work_data)])[(as.vector(sapply(work_data[,(variable_fc):ncol(work_data)], 
                                                                                       function(x) is.numeric(x))))], names(work_data))
