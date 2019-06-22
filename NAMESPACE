@@ -2,6 +2,7 @@
 
 export(bin_analysis)
 export(binning)
+УЧЗЩКЕ(woe_calc)
 export(convertVar)
 export(delVar)
 export(maxPercVar)
@@ -24,3 +25,4 @@ importFrom(gtable,gtable_add_cols)
 importFrom(gtable,gtable_add_grob)
 importFrom(smbinning,smbinning)
 importFrom(utils,browseURL)
+importFrom(dplyr,group_by_)
