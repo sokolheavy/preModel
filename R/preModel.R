@@ -2,7 +2,6 @@
 #  update:2019-06-16
 
 
-
 #' @title Add binned variables to the dataset
 #'
 #' @description
@@ -331,16 +330,6 @@ bin_analysis <- function(variable_fc_bin, target_calc_bin, bin_data, IsOpen = T)
 }
 
 
-
-
-
-
-
-
-
-
-
-
 #' @title Select Types of Variables
 #'
 #' @description
@@ -445,43 +434,31 @@ convertVar <- function(df,toType,vars=-1) {
   return(res)
 }
 
-
-#' @title Get the Max Percent of the Variable's values
-#'
-#' @param df A dataframe.
-#' @param x_nm Name of variable.
-#'
-#' @return A numeric
-#' 
-#' @export
-
-maxPercVar_x <- function(df,x_nm) {
-  x <- df[,x_nm]
-  len <- length(x)
-  if(len==0) stop(paste("error in 'maxPercVar_x' Function: vector '",x_nm,"' contains zero element",sep=""))
-  cnts <- as.vector(table(x,useNA="ifany"))
-  percents <- cnts/len
-  return(max(percents,na.rm=TRUE))
+                               
+# @title Get the Max Percent of the Given Variable's Single-Value
+#
+# @description Return the max percent of Single-Value in the given x variable or all dataset.
+#
+# @param df A dataframe.
+# @param x_nm Name of x variable.
+#
+# @return A numeric
+# @export
+#
+maxSinvalPercent <- function(df, x_nm = "All"){
+  if(x_nm == "All") {
+    nm <- names(df)
+    myres <- sapply(nm,maxSinvalPercent_x,df=df)
+    return(myres)
+  } else {
+    x <- df[,x_nm]
+    len <- length(x)
+    if(len==0) stop(paste("error in 'maxSinvalPercent_x' Function: vector '",x_nm,"' contains zero element",sep=""))
+    cnts <- as.vector(table(x,useNA="ifany"))
+    percents <- cnts/ len
+    return(max(percents,na.rm=TRUE))
+    }
 }
-
-
-
-#' @title Get the Max Percents of All Variable's of one value
-#'
-#' @description
-#' \code{maxPercVar} will return the max percent vector of every variable's 
-#'
-#' @param df A dataframe.
-#'
-#' @return A vector
-#' @export
-
-maxPercVar <- function(df) {
-  nm <- names(df)
-  myres <- sapply(nm,maxPercVar_x,df=df)
-  return(myres)
-}
-
 
 
 
@@ -500,7 +477,7 @@ maxPercVar <- function(df) {
 delVar <- function(df,percent=0.9,exclude=NULL) {
   df2 <- df
   nm2 <- names(df2)
-  if(!is.null(exclude)) df <- excludeCol(df,exclude)
+  if(!is.null(exclude)) df <- df[, -exclude]
   nm <- names(df)
   sinvalper <- maxSinvalPercent(df)
   delvars <- nm[which(sinvalper >= percent)]
