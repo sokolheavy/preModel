@@ -22,7 +22,7 @@
 binning <- function(work_data, variable_fc, target_calc){
   # binning every variable with different type of binning('equal', 'smbinning', '')
   bin_col <- match(names(work_data[ ,(variable_fc):ncol(work_data)])[(as.vector(sapply(work_data[,(variable_fc):ncol(work_data)], 
-                                                                                      function(x) is.numeric(x))))], names(work_data))
+                                                                                       function(x) is.numeric(x))))], names(work_data))
   
   # load(file = 'digit.rda')
   begin_ncol <- ncol(work_data)
@@ -39,10 +39,9 @@ binning <- function(work_data, variable_fc, target_calc){
       digit[i] <- as.numeric(readline(prompt="Enter precision: "))
     }
   }
-  save(digit, file = "digit.rda")
   
   
-  #loop with binning and creating cat vatiables in one
+  # loop with binning and creating cat vatiables in one
   for (i in bin_col) { 
     error_list <- c()
     print(i)
@@ -116,9 +115,52 @@ binning <- function(work_data, variable_fc, target_calc){
     save(eq_w, eq_d, jk, sb, file = paste(names(work_data[i]),".rda", sep = ""))
     
   }
-  work_data <<- work_data
+
+
+  #remove original columns
+  resalt_col <- sapply(names(work_data), function(x) !(length(grep(paste0(x, "_cat"), names(work_data)))) > 0)
+  work_data <- work_data[ ,resalt_col]
+
+bin_data <<- work_data 
+
 } 
 
+
+
+#' @title Add woe column to the dataset 
+#'
+#' @description
+#' \code{woe_calc} calc woe of every variables and add that to the dataset
+#' 
+#' @param df A dataframe.
+#' @param variable_fc Number of first column of variable for binning
+#' @param target_calc Number of column target`s variable
+#'
+#' @return A dataframe with binned and woe column
+#' 
+#' @importFrom dplyr select
+#' @importFrom dplyr group_by_
+#' @importFrom dplyr summarise_all
+#' 
+#' @export
+#' 
+woe_calc <- function(df, target_col, variable_fc){
+  for (i in variable_fc:ncol(df)){
+    var_for_group <- names(df)[i]
+    column_woe <- paste("WOE", names(df)[i] , sep="_")
+  
+    Good <- sum(df[, target_col])
+    Bad <- length(df[, target_col]) - sum(df[, target_col])
+    woe_table <- df %>%
+      select(c(i,1)) %>%
+      group_by_(.dots = var_for_group) %>%
+      summarise_all(funs(!!column_woe := log((sum(.)/Good)/((length(.)-sum(.))/Bad))))
+  
+    # join 'woe_table' to the table with bining variables                      
+    df <- left_join(df,woe_table,by=names(df)[i])
+  }
+  df_woe <<- df 
+}
 
 
 
