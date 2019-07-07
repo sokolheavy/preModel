@@ -183,6 +183,7 @@ woe_calc <- function(df, target_col, variable_fc){
 #' @importFrom ggplot2 ggplot
 #' @importFrom ggplot2 ggplot_build
 #' @importFrom ggplot2 ggplot_gtable
+#' @importFrom ggplot2 theme  
 #' @importFrom gtable gtable_add_grob
 #' @importFrom gtable gtable_add_cols
 #' @importFrom ggpubr ggtexttable 
