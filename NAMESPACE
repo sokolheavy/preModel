@@ -2,7 +2,7 @@
 
 export(bin_analysis)
 export(binning)
-УЧЗЩКЕ(woe_calc)
+export(woe_calc)
 export(convertVar)
 export(delVar)
 export(maxPercVar)
