@@ -225,7 +225,7 @@ bin_analysis <- function(variable_fc_bin, target_calc_bin, bin_data, IsOpen = T)
       summarise_all(funs(!!column_br := (n() - sum(.))/n()))
     
     # join 'br_table' to the table with bining variables
-    bin_data <- left_join(bin_data, br_table,by=names(bin_data)[i])
+    bin_data <<- left_join(bin_data, br_table,by=names(bin_data)[i])
   }
   
   
